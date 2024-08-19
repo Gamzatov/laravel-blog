@@ -25,3 +25,4 @@
     <div class="alert alert-danger my-1">{{ $message }}</div>
     @enderror
 </div>
+<x-category-select :$post="$post ?? null"/>

@@ -4,17 +4,23 @@
         <div class="col-md-8">
 
             <article class="blog-post">
-                <a href="{{route('posts.edit', ['post'=>$post])}}" class="btn btn-dark">Edit</a>
-                <button class="btn btn-sn btn-danger" form="deletePost">Delete</button>
+                @can('owner', $post)
+                    <a href="{{route('posts.edit', compact('post'))}}" class="btn btn-dark">Edit</a>
+                    <button class="btn btn-sn btn-danger" form="deletePost">Delete</button>
+                @endcan
                 <button
                     class="btn btn-{{($post->status)->color()}} text-white rounded-pill btn-sm  mx-2">{{($post -> status)->label()}}</button>
+                    <span class="category_name my-1" href="#">{{$post->category?->name}}</span>
                 <form id="deletePost" method="post" action="{{route('posts.destroy', compact('post'))}}">
                     @csrf
                     @method('delete')
                 </form>
 
                 <h2 class="display-5 link-body-emphasis mb-1">{{$post->title}}</h2>
-                <p class="blog-post-meta">{{$post->created_at}} <a href="#">Mark</a></p>
+                <p class="blog-post-meta">{{$post->created_at}}
+                    <span href="#">{{$post->user->name}}</span>
+
+                </p>
                 <p>{{$post->description}}</p>
                 <p>{{$post->text}}</p>
             </article>

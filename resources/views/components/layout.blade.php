@@ -1,5 +1,5 @@
 <?php ?>
-<!doctype html>
+    <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
     <meta charset="utf-8">
@@ -73,13 +73,14 @@
 <div class="container">
     <header class="border-bottom lh-1 py-3">
 
-        <div class="row flex-nowrap justify-content-between align-items-center">
+        <div class="row flex-nowrap justify-content-between align-items-center border-bottom mb-2 pb-3">
 
             <div class="col-4 pt-1">
                 <a class="link-secondary" href="#">Subscribe</a>
             </div>
             <div class="col-4 text-center">
-                <a class="blog-header-logo text-body-emphasis text-decoration-none" href="{{route('posts.index')}}">Large</a>
+                <a class="blog-header-logo text-body-emphasis text-decoration-none"
+                   href="{{route('posts.index')}}">{{$title ?? 'Blog Laravel'}}</a>
             </div>
 
             <div class="col-4 d-flex justify-content-end align-items-center">
@@ -91,24 +92,46 @@
                         <path d="M21 21l-5.2-5.2"/>
                     </svg>
                 </a>
-                <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
+                @guest
+                    <a class="btn btn-sm btn-outline-secondary mx-1" href="{{ route('login') }}">Sign in</a>
+                    <a class="btn btn-sm btn-outline-secondary mx-1" href="{{ route('register') }}">Sign up</a>
+                @endguest
+                @auth
+                    <span class="mx-1">  Welcome, <b> {{auth()->user()->name}}</b></span>
+                @endauth
+                @auth
+                    <form action="{{route('logout')}}" method="post">
+                        @csrf
+                        <button class="btn btn-sm btn-outline-secondary mx-1">Sign out</button>
+                    </form>
+                @endauth
             </div>
         </div>
+        <x-category-list />
     </header>
 
     <div class="col-md-3 mb-2 mb-md-0">
         <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-            <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+            <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap">
+                <use xlink:href="#bootstrap"></use>
+            </svg>
         </a>
     </div>
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="{{route('posts.create')}}" class="nav-link px-2">Create</a></li>
+        <li><a href="{{route('posts.index')}}" class="nav-link px-2 link-secondary">Home</a></li>
+        @auth
+            <li><a href="{{route('posts.create')}}" class="nav-link px-2">Create</a></li>
+            @if(@auth()->user()->isAdmin())
+                <li><a href="{{route('admin.index')}}" class="nav-link px-2">Admin Panel</a></li>
+            @endif
+        @endauth
         <li><a href="#" class="nav-link px-2">Pricing</a></li>
         <li><a href="#" class="nav-link px-2">FAQs</a></li>
         <li><a href="#" class="nav-link px-2">About</a></li>
+
     </ul>
+
 
 </div>
 

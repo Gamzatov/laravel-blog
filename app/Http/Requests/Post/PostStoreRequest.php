@@ -14,6 +14,17 @@ class PostStoreRequest extends PostCommonRequest
      */
     public function rules(): array
     {
-        return parent::rules();
+        return parent::rules() + [
+            'user_id' => [
+                'int'
+            ],
+        ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'user_id' => auth()->id(),
+        ]);
     }
 }

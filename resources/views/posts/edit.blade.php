@@ -3,13 +3,14 @@
         Edit Post
     </h1>
     <form action="{{route('posts.update', compact('post'))}}" method="post">
+
         @csrf
         @method('put')
         <x-blog.post-form :$post/>
         <div class="form-group">
             <label for="">Status</label>
             <select name="status" id="" class="form-control">
-                @foreach(\App\Enums\Post\PostStatusEnum::cases() as $status)
+                @foreach(PostStatusEnum::cases() as $status)
                     <option
                         @selected($post->status == $status->value) value="{{$status->value}}">{{$status->label()}}</option>
                 @endforeach

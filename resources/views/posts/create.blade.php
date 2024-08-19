@@ -5,7 +5,7 @@
     </h1>
     <form action="{{route('posts.store')}}" method="post">
         @csrf
-        <x-blog.post-form />
+        <x-blog.post-form/>
         <div class="">
             <button class="btn btn-dark">
                 Create

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,6 +22,9 @@ class PostFactory extends Factory
             'title' => fake()->sentence(2),
             'description' => fake()->paragraph(1),
             'text' => fake()->paragraph(1),
+            'user_id' => User::query()->inRandomOrder()->value('id'),
+            'category_id' => Category::query()->inRandomOrder()->value('id'),
+
         ];
     }
 }
