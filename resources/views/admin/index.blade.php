@@ -1,1 +1,1 @@
-<x-admin.layout title="Main"/>
+<x-admin.layout title="Main" />

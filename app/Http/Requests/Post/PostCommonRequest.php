@@ -4,14 +4,12 @@ namespace App\Http\Requests\Post;
 
 use App\Http\Requests\Common\CommonRequest;
 use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Validation\Rule;
 
 class PostCommonRequest extends CommonRequest
 {
-
     /**
-     * Get the validation rules that apply to the request.
-     *
      * @return array
      */
     public function rules(): array
@@ -24,18 +22,36 @@ class PostCommonRequest extends CommonRequest
             ],
             'description' => [
                 'required',
-                'min:3',
+                'min:10',
                 'max:5000',
             ],
             'text' => [
                 'required',
-                'min:3',
+                'min:10',
                 'max:5000',
             ],
             'category_id' => [
                 'int',
                 Rule::exists(Category::class, 'id'),
+            ],
+            'tags' => [
+                'array'
+            ],
+            'tags.*' => [
+                'int',
+                Rule::exists(Tag::class, 'id'),
+            ],
+            'image' => [
+                'file',
+                'extensions:jpg,png,webp',
             ]
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'You missed your amazing title',
         ];
     }
 }

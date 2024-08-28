@@ -11,18 +11,16 @@ use Illuminate\View\Component;
 class CategoryList extends Component
 {
     /**
-     * Создайте новый экземпляр компонента.
+     * Create a new component instance.
      */
     public function __construct(
         public Collection $categories
-    )
-    {
-// Присвоение коллекции категорий свойству $categories
+    ) {
         $this->categories = Category::all();
     }
 
     /**
-     * Получите представление / содержимое, представляющее компонент.
+     * Get the view / contents that represent the component.
      */
     public function render(): View|Closure|string
     {

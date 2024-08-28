@@ -1,5 +1,4 @@
-<?php ?>
-    <!doctype html>
+<!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
     <meta charset="utf-8">
@@ -8,16 +7,11 @@
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
     <title>Blog Template · Bootstrap v5.3</title>
-    {{--    css--}}
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/blog_rtl.css" rel="stylesheet">
-    <link href="/css/blog.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="blog.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
+
+    <link rel="stylesheet" href="/css/blog.css">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="/css/fa-5.min.css" rel="stylesheet" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
-
-
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -40,20 +34,6 @@
     </symbol>
 </svg>
 
-<div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
-    <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
-            id="bd-theme"
-            type="button"
-            aria-expanded="false"
-            data-bs-toggle="dropdown"
-            aria-label="Toggle theme (auto)">
-        <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
-            <use href="#circle-half"></use>
-        </svg>
-        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-    </button>
-</div>
-
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
     <symbol id="aperture" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
             stroke-width="2" viewBox="0 0 24 24">
@@ -71,74 +51,70 @@
 </svg>
 
 <div class="container">
+
     <header class="border-bottom lh-1 py-3">
-
-        <div class="row flex-nowrap justify-content-between align-items-center border-bottom mb-2 pb-3">
-
+        <div class="row flex-nowrap justify-content-between align-items-center">
             <div class="col-4 pt-1">
                 <a class="link-secondary" href="#">Subscribe</a>
             </div>
             <div class="col-4 text-center">
                 <a class="blog-header-logo text-body-emphasis text-decoration-none"
-                   href="{{route('posts.index')}}">{{$title ?? 'Blog Laravel'}}</a>
+                   href="{{ route('posts.index') }}">{{ $title ?? "Blog Laravel" }}</a>
             </div>
-
             <div class="col-4 d-flex justify-content-end align-items-center">
-                <a class="link-secondary" href="#" aria-label="Search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
-                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img"
-                         viewBox="0 0 24 24"><title>Search</title>
-                        <circle cx="10.5" cy="10.5" r="7.5"/>
-                        <path d="M21 21l-5.2-5.2"/>
-                    </svg>
-                </a>
+                <form action="{{ route('posts.index') }}">
+                    <input type="search"
+                           name="search"
+                           class="form-control" placeholder="Search..." aria-label="Search">
+                </form>
                 @guest
-                    <a class="btn btn-sm btn-outline-secondary mx-1" href="{{ route('login') }}">Sign in</a>
-                    <a class="btn btn-sm btn-outline-secondary mx-1" href="{{ route('register') }}">Sign up</a>
+                    <a class="btn btn-sm btn-outline-secondary mx-1" href="{{ route('login') }}">Login</a>
+                    <a class="btn btn-sm btn-outline-secondary mx-1" href="{{ route('register') }}">Registration</a>
                 @endguest
                 @auth
-                    <span class="mx-1">  Welcome, <b> {{auth()->user()->name}}</b></span>
-                @endauth
-                @auth
-                    <form action="{{route('logout')}}" method="post">
+                    <form action="{{ route('logout') }}" method="post">
                         @csrf
-                        <button class="btn btn-sm btn-outline-secondary mx-1">Sign out</button>
+                        <button class="btn btn-sm btn-outline-secondary mx-1">Logout</button>
                     </form>
                 @endauth
             </div>
         </div>
-        <x-category-list />
+        <div class="container d-flex flex-wrap justify-content-between my-3 px-0">
+            <div>
+                <ul class="nav me-auto">
+                    <li class="nav-item">
+                        <a href="{{ route('posts.index') }}" class="nav-link link-body-emphasis px-2 active"
+                           aria-current="page">Home</a>
+                    </li>
+                    @auth
+                        <li class="nav-item">
+                            <a href="{{ route('posts.create') }}" class="nav-link link-body-emphasis px-2">Create
+                                Post</a>
+                        </li>
+                    @endauth
+                    @auth
+                        @if(auth()->user()->isAdmin())
+                            <li class="nav-item"><a href="{{ route('admin.index') }}"
+                                                    class="nav-link link-body-emphasis px-2">Admin Panel</a></li>
+                        @endif
+                    @endauth
+                </ul>
+            </div>
+            <div class="my-2">
+                @auth
+                    Welcome, <b>{{ auth()->user()->name }}</b>
+                @endauth
+            </div>
+        </div>
     </header>
-
-    <div class="col-md-3 mb-2 mb-md-0">
-        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-            <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap">
-                <use xlink:href="#bootstrap"></use>
-            </svg>
-        </a>
-    </div>
-
-    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="{{route('posts.index')}}" class="nav-link px-2 link-secondary">Home</a></li>
-        @auth
-            <li><a href="{{route('posts.create')}}" class="nav-link px-2">Create</a></li>
-            @if(@auth()->user()->isAdmin())
-                <li><a href="{{route('admin.index')}}" class="nav-link px-2">Admin Panel</a></li>
-            @endif
-        @endauth
-        <li><a href="#" class="nav-link px-2">Pricing</a></li>
-        <li><a href="#" class="nav-link px-2">FAQs</a></li>
-        <li><a href="#" class="nav-link px-2">About</a></li>
-
-    </ul>
-
-
+    @if(!isset($offCategories))
+        <x-category-list/>
+    @endif
 </div>
-
-
 <main class="container">
     {{ $slot }}
 </main>
+
 <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
     <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.
     </p>
@@ -146,7 +122,7 @@
         <a href="#">Back to top</a>
     </p>
 </footer>
-<script src="/js/bundle.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
-

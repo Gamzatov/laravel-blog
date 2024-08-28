@@ -6,13 +6,13 @@ namespace App\Models;
 use App\Enums\User\UserRoleEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-
 /**
- * @property UserRoleEnum role;
- **/
+ * @property UserRoleEnum role
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -60,5 +60,15 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === UserRoleEnum::ADMIN;
+    }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class, 'author_id', 'id');
+    }
+
+    public function subscription(): HasOne
+    {
+    return $this->subscriptions()->where('reader_id', auth()->id())->one();
     }
 }

@@ -1,5 +1,5 @@
-<x-admin.layout title="Categories">
-    <a class="btn btn-dark" href="{{route('admin.categories.create')}}">Create Category</a>
+<x-admin.layout title="Categories" >
+    <a class="btn btn-dark" href="{{ route('admin.categories.create') }}">Create Category</a>
     <table class="table">
         <thead>
         <tr>
@@ -10,13 +10,14 @@
         </thead>
         <tbody>
         @foreach($categories as $category)
-            <tr>
-                <td>{{$category->id}}</td>
-                <td>{{$category->name}}</td>
-                <td><a class="btn btn-secondary"
-                       href="{{route('admin.categories.edit', compact('category'))}}">Edit</a></td>
-            </tr>
+        <tr>
+            <td>{{ $category->id }}</td>
+            <td>{{ $category->name }}</td>
+            <td><a class="btn btn-secondary"
+                   href="{{ route('admin.categories.edit', compact('category')) }}">Edit</a></td>
+        </tr>
         @endforeach
         </tbody>
     </table>
 </x-admin.layout>
+

@@ -11,26 +11,18 @@ use Illuminate\View\Component;
 
 class CategorySelect extends Component
 {
-    // Объявляем свойство $categories
-    public Collection $categories;
-
     /**
-     * Создайте новый экземпляр компонента.
-     * @param Collection $categories
-     * @param Post $post
+     * Create a new component instance.
      */
     public function __construct(
         public Collection $categories,
-        public Post|null  $post
-    )
-
-    {
-        // Присваиваем коллекцию категорий свойству $categories
+        public Post|null $post
+    ) {
         $this->categories = Category::all();
     }
 
     /**
-     * Получите представление / содержимое, представляющее компонент.
+     * Get the view / contents that represent the component.
      */
     public function render(): View|Closure|string
     {

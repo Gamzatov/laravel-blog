@@ -6,7 +6,6 @@ use App\Http\Requests\Common\CommonRequest;
 
 class UpdateCategoryRequest extends CommonRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -15,10 +14,11 @@ class UpdateCategoryRequest extends CommonRequest
     public function rules(): array
     {
         return [
-           'name'=>
-           'string',
-            'min:3',
-            'max:50',
+            'name' => [
+                'string',
+                'min:3',
+                'max:50'
+            ]
         ];
     }
 }

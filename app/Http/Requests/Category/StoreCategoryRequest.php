@@ -6,7 +6,6 @@ use App\Http\Requests\Common\CommonRequest;
 
 class StoreCategoryRequest extends CommonRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -15,7 +14,11 @@ class StoreCategoryRequest extends CommonRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => [
+                'string',
+                'min:3',
+                'max:50'
+            ]
         ];
     }
 }

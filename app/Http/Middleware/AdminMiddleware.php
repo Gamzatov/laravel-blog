@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,16 +14,15 @@ class AdminMiddleware
      *
      * @param Closure(Request): (Response) $next
      */
-
-    /*
-     * @var User $user
-     */
-
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user()->isAdmin()) {
+        /* @var User $user */
+        $user = auth()->user();
+
+        if(!$user->isAdmin()) {
             abort(404);
         }
+
         return $next($request);
     }
 }
